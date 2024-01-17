@@ -35,13 +35,13 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-        appBarConfiguration = AppBarConfiguration(
+        /*appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.fragment_lista, R.id.fragment_lista
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
+        navView.setupWithNavController(navController)*/
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

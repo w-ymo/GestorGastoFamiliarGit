@@ -1,7 +1,5 @@
 package com.example.gestorgastofamiliar.providers
 
-import android.widget.TextView
-import androidx.databinding.BindingAdapter
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -14,8 +12,13 @@ data class Gasto(
     var precio: Double,
     var idUsuario: String,
     val formatoFecha: SimpleDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH)
-)
-
+) {
+    companion object {
+        fun dateToString(date: Date): String {
+            return SimpleDateFormat("dd/mm/yyyy").format(date)
+        }
+    }
+}
 
 class GastosProvider {
     companion object {

@@ -5,7 +5,6 @@
 
     <data>
 
-        <import type="com.example.gestorgastofamiliar.utils.DateUtils" />
 
         <variable
             name="gasto"
@@ -16,11 +15,9 @@
         android:id="@+id/cl_gasto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
+        android:layout_marginVertical="5dp"
         android:background="@drawable/fondo_gasto"
         android:padding="10dp">
-
-        <!--        categoria, concepto, fecha y precio-->
 
 
         <TextView
@@ -50,10 +47,8 @@
             android:id="@+id/tv_fecha"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{ DateUtils.Companion.dateToString(gasto.fecha)}"
-
+            android:text="@{gasto.Companion.dateToString(gasto.fecha)}"
             android:textAppearance="?attr/textAppearanceListItem"
-
             app:layout_constraintStart_toStartOf="@+id/cl_gasto"
             app:layout_constraintTop_toBottomOf="@+id/tv_concepto"
             tools:text="17/01/2024" />
@@ -65,7 +60,7 @@
             android:paddingHorizontal="10dp"
             android:text="@{@string/simbolo_euro(gasto.precio)}"
             android:textAppearance="?attr/textAppearanceListItem"
-            android:textSize="18dp"
+            android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@id/cl_gasto"
             app:layout_constraintEnd_toStartOf="@id/b_eliminar"
@@ -74,11 +69,12 @@
 
         <Button
             android:id="@+id/b_eliminar"
-            android:layout_width="20dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:background="@color/transparent"
             android:padding="0dp"
-            android:text="X"
+            android:text="@string/x"
+            android:textSize="20sp"
             android:textColor="@color/red"
             app:layout_constraintBottom_toBottomOf="@+id/cl_gasto"
             app:layout_constraintEnd_toEndOf="@+id/cl_gasto"

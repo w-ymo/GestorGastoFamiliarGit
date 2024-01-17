@@ -15,4 +15,7 @@
 
     <string name="separador_categoria" >" - %1s"</string>
     <string name="simbolo_euro" >%1.2f €</string>
+    <string name="lista_gastos">Lista de Gastos</string>
+    <string name="anadir_gasto">Añadir un gasto</string>
+    <string name="x">X</string>
 </resources>

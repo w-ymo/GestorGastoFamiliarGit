@@ -1,18 +1,14 @@
 package com.example.gestorgastofamiliar.adapter
 
 import androidx.recyclerview.widget.RecyclerView
-import android.view.LayoutInflater
-import android.view.ViewGroup
-import android.widget.TextView
 
-import com.example.gestorgastofamiliar.placeholder.PlaceholderContent.PlaceholderItem
-import com.example.gestorgastofamiliar.databinding.FragmentGastoBinding
+//import com.example.gestorgastofamiliar.placeholder.PlaceholderContent.PlaceholderItem
 
 /**
  * [RecyclerView.Adapter] that can display a [PlaceholderItem].
  * TODO: Replace the implementation with code for your data type.
  */
-class RecyclerViewAdapterGasto(
+/*class RecyclerViewAdapterGasto(
     private val values: List<PlaceholderItem>
 ) : RecyclerView.Adapter<RecyclerViewAdapterGasto.ViewHolder>() {
 
@@ -45,4 +41,4 @@ class RecyclerViewAdapterGasto(
         }
     }
 
-}
+}*/

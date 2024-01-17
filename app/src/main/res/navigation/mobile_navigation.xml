@@ -3,10 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/mainActivity">
-    <activity
-        android:id="@+id/mainActivity"
-        android:name="com.example.gestorgastofamiliar.MainActivity"
-        android:label="app_bar_main"
-        tools:layout="@layout/app_bar_main" />
+    app:startDestination="@id/fragment_lista">
+    <fragment android:id="@+id/fragment_lista"
+        android:name="com.example.gestorgastofamiliar.fragments.FragmentGasto"
+        android:label="Lista de Gastos"
+        tools:layout="@layout/fragment_lista_gasto">
+        <action android:id="@+id/action_lista_to_registro"
+            app:destination="@+id/fragment_registro"/>
+        <!-- Añadir animaciones ¿?-->
+    </fragment>
+    <fragment android:id="@+id/fragment_registro"
+        android:name="com.example.gestorgastofamiliar.fragments.FragmentGasto"
+        android:label="Registro de Gasto"
+        tools:layout="@layout/fragment_registro">
+        <action android:id="@+id/action_registro_to_lista"
+            app:destination="@+id/fragment_lista"/>
+        <!-- Añadir animaciones ¿?-->
+    </fragment>
+
 </navigation>

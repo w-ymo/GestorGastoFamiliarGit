@@ -1,17 +1,15 @@
 package com.example.gestorgastofamiliar.adapter
 
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.TextView
-import com.example.gestorgastofamiliar.providers.Gasto
-
+import androidx.recyclerview.widget.RecyclerView
 import com.example.gestorgastofamiliar.databinding.FragmentGastoBinding
+import com.example.gestorgastofamiliar.providers.Gasto
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
-/**
- * [RecyclerView.Adapter] that can display a [PlaceholderItem].
- * TODO: Replace the implementation with code for your data type.
- */
 class RecyclerViewAdapterGasto(
     private val gastos: List<Gasto>
 ) : RecyclerView.Adapter<RecyclerViewAdapterGasto.ViewHolder>() {
@@ -20,12 +18,9 @@ class RecyclerViewAdapterGasto(
 
         return ViewHolder(
             FragmentGastoBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
+                LayoutInflater.from(parent.context), parent, false
             )
         )
-
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -34,15 +29,10 @@ class RecyclerViewAdapterGasto(
 
     override fun getItemCount(): Int = gastos.size
 
-    inner class ViewHolder(binding: FragmentGastoBinding) : RecyclerView.ViewHolder(binding.root) {
-        val idView: TextView = binding.itemNumber
-        val contentView: TextView = binding.content
+    inner class ViewHolder(val binding: FragmentGastoBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(gasto: Gasto) {
-
-        }
-
-        override fun toString(): String {
-            return super.toString() + " '" + contentView.text + "'"
+            binding.gasto = gasto
         }
     }
 

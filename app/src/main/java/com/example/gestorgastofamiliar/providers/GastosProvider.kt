@@ -1,14 +1,21 @@
 package com.example.gestorgastofamiliar.providers
 
+import android.widget.TextView
+import androidx.databinding.BindingAdapter
+import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.Locale
+
 
 data class Gasto(
     var categoria: String,
     var concepto: String,
     var fecha: Date,
     var precio: Double,
-    var idUsuario: String
+    var idUsuario: String,
+    val formatoFecha: SimpleDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH)
 )
+
 
 class GastosProvider {
     companion object {

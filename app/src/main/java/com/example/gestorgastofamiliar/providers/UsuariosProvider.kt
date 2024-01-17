@@ -1,4 +1,6 @@
-class Usuario(var nombre: String, var contrasena:String)
+package com.example.gestorgastofamiliar.providers
+
+data class Usuario(var nombre: String, var contrasena: String)
 
 class UsuariosProvider {
     companion object {

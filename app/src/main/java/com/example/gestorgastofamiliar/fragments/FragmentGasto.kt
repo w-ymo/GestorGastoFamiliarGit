@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.gestorgastofamiliar.providers.GastosProvider
 import com.example.gestorgastofamiliar.R
 //import com.example.gestorgastofamiliar.adapter.RecyclerViewAdapterGasto
 
@@ -39,7 +40,7 @@ class FragmentGasto : Fragment() {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                //adapter = RecyclerViewAdapterGasto(PlaceholderContent.ITEMS)
+                //adapter = RecyclerViewAdapterGasto(GastosProvider.gastos)
             }
         }
         return view

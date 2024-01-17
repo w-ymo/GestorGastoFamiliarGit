@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.FragmentRegistro">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <GridLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:columnCount="2"
+        android:rowCount="5"
         android:padding="20dp">
 
         <TextView
@@ -16,62 +18,51 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Usuario"
-            android:textSize="20dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/tiet_usuario"
-            app:layout_constraintBottom_toTopOf="@+id/tv_categoria"/>
+            android:textSize="20dp"/>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/tiet_usuario"
-            android:layout_width="wrap_content"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_usuario"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
+            android:layout_column="1"
             android:hint="Introduce un usuario"
-            app:layout_constraintStart_toEndOf="@+id/tv_usuario"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            >
-        </com.google.android.material.textfield.TextInputEditText>
+            android:textSize="20dp">
 
-        <layout
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tiet_usuario"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
 
         <TextView
             android:id="@+id/tv_categoria"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
             android:text="Categoria"
-            app:layout_constraintTop_toBottomOf="@id/tv_usuario"
-            app:layout_constraintStart_toStartOf="parent"/>
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/tv_concepto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
             android:text="Concepto"
-            app:layout_constraintTop_toBottomOf="@+id/tv_categoria"
-            app:layout_constraintStart_toStartOf="parent"/>
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/tv_fecha"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
             android:text="Fecha"
-            app:layout_constraintTop_toBottomOf="@+id/tv_concepto"
-            app:layout_constraintStart_toStartOf="parent"/>
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/tv_precio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
             android:text="Precio"
-            app:layout_constraintTop_toBottomOf="@+id/tv_fecha"
-            app:layout_constraintStart_toStartOf="parent"/>
+            android:textSize="20dp" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </GridLayout>
 
 </FrameLayout>

@@ -1,12 +1,11 @@
 package com.example.gestorgastofamiliar.fragments
-
+//
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-//import com.example.gestorgastofamiliar.ARG_PARAM1
-//import com.example.gestorgastofamiliar.ARG_PARAM2
+
 import com.example.gestorgastofamiliar.R
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER

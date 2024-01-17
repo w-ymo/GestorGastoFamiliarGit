@@ -24,6 +24,7 @@
 
 
 <!--    LOGIN ACTIVITY  -->
+    <string name="title_login">Iniciar sesion</string>
     <string name="username">Nombre de usuario</string>
     <string name="password">Contraseña</string>
     <string name="entrar">Entrar</string>

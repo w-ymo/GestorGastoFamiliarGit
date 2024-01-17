@@ -13,7 +13,10 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
+        //binding.tilPassword.setEndIconActivated(true)
+        binding.bEntrar.setOnClickListener{
+            //lanzar al main activity
+        }
 
     }
 }

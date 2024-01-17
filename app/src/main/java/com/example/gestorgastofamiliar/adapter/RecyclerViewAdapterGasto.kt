@@ -4,8 +4,8 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
+import com.example.gestorgastofamiliar.providers.Gasto
 
-import com.example.gestorgastofamiliar.placeholder.PlaceholderContent.PlaceholderItem
 import com.example.gestorgastofamiliar.databinding.FragmentGastoBinding
 
 /**
@@ -13,7 +13,7 @@ import com.example.gestorgastofamiliar.databinding.FragmentGastoBinding
  * TODO: Replace the implementation with code for your data type.
  */
 class RecyclerViewAdapterGasto(
-    private val values: List<PlaceholderItem>
+    private val gastos: List<Gasto>
 ) : RecyclerView.Adapter<RecyclerViewAdapterGasto.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -29,16 +29,17 @@ class RecyclerViewAdapterGasto(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = values[position]
-        holder.idView.text = item.id
-        holder.contentView.text = item.content
+        holder.bind(gastos[position])
     }
 
-    override fun getItemCount(): Int = values.size
+    override fun getItemCount(): Int = gastos.size
 
     inner class ViewHolder(binding: FragmentGastoBinding) : RecyclerView.ViewHolder(binding.root) {
         val idView: TextView = binding.itemNumber
         val contentView: TextView = binding.content
+        fun bind(gasto: Gasto) {
+
+        }
 
         override fun toString(): String {
             return super.toString() + " '" + contentView.text + "'"

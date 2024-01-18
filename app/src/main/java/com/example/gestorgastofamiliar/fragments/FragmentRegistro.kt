@@ -49,9 +49,6 @@ class FragmentRegistro : Fragment() {
                 binding.tietFecha.setText(selectedDate)
             }, year, month, day
         )
-
         datePickerDialog.show()
     }
-
-
 }

@@ -14,8 +14,8 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
-    <string name="separador_categoria">" - %1s"</string>
-    <string name="simbolo_euro">%1.2f €</string>
+    <string name="separador_categoria" >" - %1s"</string>
+    <string name="simbolo_euro" >%1.2f €</string>
     <string name="lista_gastos">Lista de Gastos</string>
     <string name="anadir_gasto">Añadir un gasto</string>
     <string name="x">X</string>
@@ -30,11 +30,12 @@
     <string name="login_failed">"Login failed"</string>
 
 
-    <!-- LOGIN ACTIVITY -->
+    <!--LOGIN ACTIVITY  -->
     <string name="title_login">Iniciar sesion</string>
     <string name="username">Nombre de usuario</string>
     <string name="password">Contraseña</string>
     <string name="entrar">Entrar</string>
+    <string name="guardar_usuario">Seleccionar para guardar el usuario</string>
 
     <!-- FRAGMENT REGISTRO -->
     <string name="hint_category">Categoría</string>

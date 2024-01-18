@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gestorgastofamiliar.providers.GastosProvider
 import com.example.gestorgastofamiliar.R
-//import com.example.gestorgastofamiliar.adapter.RecyclerViewAdapterGasto
+import com.example.gestorgastofamiliar.adapter.RecyclerViewAdapterGasto
 
 /**
  * A fragment representing a list of Items.
@@ -40,7 +40,7 @@ class FragmentGasto : Fragment() {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                //adapter = RecyclerViewAdapterGasto(GastosProvider.gastos)
+                adapter = RecyclerViewAdapterGasto(GastosProvider.gastos)
             }
         }
         return view

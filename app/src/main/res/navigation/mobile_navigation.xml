@@ -13,7 +13,7 @@
         <!-- Añadir animaciones ¿?-->
     </fragment>
     <fragment android:id="@+id/fragment_registro"
-        android:name="com.example.gestorgastofamiliar.fragments.FragmentGasto"
+        android:name="com.example.gestorgastofamiliar.fragments.FragmentRegistro"
         android:label="Registro de Gasto"
         tools:layout="@layout/fragment_registro">
         <action android:id="@+id/action_registro_to_lista"

@@ -4,11 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
-
         <variable
             name="gasto"
             type="com.example.gestorgastofamiliar.providers.Gasto" />
+        <variable
+            name="gastos"
+            type="com.example.gestorgastofamiliar.providers.GastosProvider" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -47,11 +48,12 @@
             android:id="@+id/tv_fecha"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{gasto.Companion.dateToString(gasto.fecha)}"
+            android:text="@{String.valueOf(gasto.fecha)}"
             android:textAppearance="?attr/textAppearanceListItem"
             app:layout_constraintStart_toStartOf="@+id/cl_gasto"
             app:layout_constraintTop_toBottomOf="@+id/tv_concepto"
             tools:text="17/01/2024" />
+        <!--android:text="@{gastos.Companion.dateToString(gasto.fecha)}"-->
 
         <TextView
             android:id="@+id/tv_precio"

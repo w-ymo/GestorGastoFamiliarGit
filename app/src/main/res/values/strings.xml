@@ -35,6 +35,7 @@
     <string name="username">Nombre de usuario</string>
     <string name="password">Contraseña</string>
     <string name="entrar">Entrar</string>
+    <string name="guardar_usuario">Seleccionar para guardar el usuario</string>
 
     <!-- FRAGMENT REGISTRO -->
     <string name="hint_category">Categoría</string>

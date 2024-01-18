@@ -12,6 +12,8 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.example.gestorgastofamiliar.databinding.ActivityMainBinding
+import com.example.gestorgastofamiliar.databinding.NavHeaderMainBinding
+import com.example.gestorgastofamiliar.providers.Usuario
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,6 +25,9 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val drawerBinding = NavHeaderMainBinding.inflate(layoutInflater)
+        drawerBinding.tvNombreUsuario.text =intent.extras?.getString("nombre").toString()
 
         setSupportActionBar(binding.appBarMain.toolbar)
 

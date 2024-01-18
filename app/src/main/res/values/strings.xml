@@ -30,11 +30,17 @@
     <string name="login_failed">"Login failed"</string>
 
 
-<!--    LOGIN ACTIVITY  -->
+    <!--LOGIN ACTIVITY  -->
     <string name="title_login">Iniciar sesion</string>
     <string name="username">Nombre de usuario</string>
     <string name="password">Contraseña</string>
     <string name="entrar">Entrar</string>
 
+    <!-- FRAGMENT REGISTRO -->
+    <string name="hint_category">Categoría</string>
+    <string name="hint_concept">Concepto</string>
+    <string name="hint_date">Fecha</string>
+    <string name="hint_price">Precio (0.00€)</string>
+    <string name="button_register">Registrar Gasto</string>
 
 </resources>

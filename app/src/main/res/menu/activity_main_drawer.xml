@@ -12,5 +12,9 @@
             android:id="@+id/fragment_registro"
             android:icon="@drawable/ic_menu_add"
             android:title="@string/anadir_gasto" />
+        <item
+            android:id="@+id/fragment_close_application"
+            android:icon="@drawable/logout_icon"
+            android:title="@string/cerrar_sesion" />
     </group>
 </menu>

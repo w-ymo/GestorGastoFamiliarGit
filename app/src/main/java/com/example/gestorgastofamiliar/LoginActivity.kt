@@ -1,5 +1,6 @@
 package com.example.gestorgastofamiliar
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.gestorgastofamiliar.databinding.ActivityLoginBinding
@@ -26,7 +27,8 @@ class LoginActivity : AppCompatActivity() {
                 if (UsuariosProvider.usuarios[index].contrasena == password){
                     //lanzo a la siguiente ventana
                     //meter un checkbox que te guarde el usuario al iniciar de nuevo la app??
-                    startActivity(MainActivity().intent)
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
                 }else{
                     //mensaje de error
                     msgError = "La contraseña no es correcta."

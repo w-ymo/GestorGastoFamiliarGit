@@ -1,5 +1,8 @@
 package com.example.gestorgastofamiliar.providers
 
+import android.os.Parcel
+import android.os.Parcelable
+import java.io.Serializable
 import java.util.Date
 
 data class Gasto(
@@ -7,8 +10,8 @@ data class Gasto(
     var concepto: String,
     var fecha: Date,
     var precio: Double,
-    var idUsuario: String
-)
+    var idUsuario: String?
+) : Serializable
 
 class GastosProvider {
     companion object {

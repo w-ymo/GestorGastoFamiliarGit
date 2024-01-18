@@ -34,8 +34,6 @@
             >
         </com.google.android.material.textfield.TextInputEditText>
 
-        <layout
-
         <TextView
             android:id="@+id/tv_categoria"
             android:layout_width="wrap_content"

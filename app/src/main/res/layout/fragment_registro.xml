@@ -15,17 +15,27 @@
         android:text="@string/tv_category"
         android:textSize="18dp"
         android:layout_row="0"
-        android:layout_column="0"/>
+        android:layout_column="0"
+        android:layout_columnSpan="2"/>
 
     <Spinner
         android:id="@+id/sp_categoria"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_row="1"
         android:layout_column="0"
-        android:layout_columnSpan="2"
         android:minHeight="48dp"
-        android:paddingBottom="15dp" />
+        android:paddingBottom="15dp"
+        android:layout_columnWeight="7"/>
+
+    <ImageButton
+        android:id="@+id/ib_categoria"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/anyadir"
+        android:layout_row="1"
+        android:layout_column="1"
+        android:layout_columnWeight="3"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_concepto"
@@ -88,7 +98,8 @@
         android:text="@string/username"
         android:textSize="18dp"
         android:layout_row="5"
-        android:layout_column="0"/>
+        android:layout_column="0"
+        android:layout_columnSpan="2"/>
 
     <Spinner
         android:id="@+id/sp_usuario"

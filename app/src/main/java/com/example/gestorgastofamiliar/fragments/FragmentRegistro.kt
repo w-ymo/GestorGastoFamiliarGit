@@ -1,5 +1,6 @@
 package com.example.gestorgastofamiliar.fragments
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,9 +9,12 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.DatePicker
 import android.widget.EditText
+import androidx.core.view.marginLeft
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import com.example.gestorgastofamiliar.R
 import com.example.gestorgastofamiliar.databinding.FragmentRegistroBinding
+import com.example.gestorgastofamiliar.providers.CategoriasProvider
 import com.example.gestorgastofamiliar.providers.Gasto
 import com.example.gestorgastofamiliar.providers.GastosProvider
 import com.example.gestorgastofamiliar.providers.UsuariosProvider
@@ -18,6 +22,7 @@ import com.google.android.material.textfield.TextInputEditText
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
+import java.util.Locale
 
 class FragmentRegistro : Fragment() {
 
@@ -37,9 +42,11 @@ class FragmentRegistro : Fragment() {
         tietDate = binding.tietFecha
         tietPrice = binding.tietPrecio
 
-        var categories = arrayListOf("Comida", "Estudios", "Ocio")
-        binding.spCategoria.adapter =
-            ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, categories)
+        binding.spCategoria.adapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_list_item_1,
+            CategoriasProvider.categorias
+        )
         binding.spUsuario.adapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_list_item_1,
@@ -55,34 +62,30 @@ class FragmentRegistro : Fragment() {
             showDatePickerDialog()
         }
 
+        val categoriesInputEditText = EditText(requireContext())
+        binding.ibCategoria.setOnClickListener {
+            val alert = AlertDialog.Builder(requireContext())
+                .setTitle("Añadir Categoría")
+                .setMessage("Escribe el nombre de la nueva categoría")
+                .setView(categoriesInputEditText)
+                .setPositiveButton("Ok") { dialog, which ->
+                    CategoriasProvider.categorias.add(categoriesInputEditText.text.toString())
+                }
+                .setNegativeButton("Cancelar") { dialog, which ->
+                    dialog.dismiss()
+                }
+            alert.show()
+        }
+
         binding.bRegistrar.setOnClickListener {
 
-            // Concepto
             val concept = tietConcept.text.toString().also {
                 showEditTextError(tietConcept)
             }
 
-            // Fecha
-            val date = tietDate.text.toString().run {
-                if (!isNullOrBlank()) {
-                    SimpleDateFormat("dd/MM/yyyy").parse(this)
-                } else {
-                    Date()
-                }
-            }.also {
-                showEditTextError(tietDate)
-            }
-            // Precio
-            val initialPrice = tietPrice.text.toString()
-            val formattedPrice = if (initialPrice.isNotBlank()) {
-                String.format("%.2f", initialPrice.toDoubleOrNull() ?: 0.00).replace(",", ".")
-            } else {
-                "0.00"
-            }.also {
-                showEditTextError(tietPrice)
-                tietPrice.setText(it)
-            }
-            val price = formattedPrice.toDouble()
+            val date = formatDate(tietDate.text.toString())
+
+            val price = formatPrice(tietPrice.text.toString())
 
             if (concept.isNotBlank() && date != Date() && price != null) {
                 val gasto = Gasto(
@@ -93,12 +96,36 @@ class FragmentRegistro : Fragment() {
                     binding.spUsuario.selectedItem.toString()
                 )
 
-//                Bundle().apply {
-//                    putSerializable("gasto", gasto)
-//                }
                 GastosProvider.gastos.add(gasto)
+                it.findNavController().navigate(R.id.action_registro_to_lista)
             }
+
         }
+    }
+
+    private fun formatPrice(price: String): Double {
+        val formattedPrice = if (price.isNotBlank()) {
+            String.format("%.2f", price.toDoubleOrNull() ?: 0.00).replace(",", ".")
+        } else {
+            "0.00"
+        }.also {
+            showEditTextError(tietPrice)
+            tietPrice.setText(it)
+        }
+        return formattedPrice.toDouble()
+    }
+
+    private fun formatDate(date: String): Date {
+        val formattedDate = date.run {
+            if (!isNullOrBlank()) {
+                SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE).parse(this)
+            } else {
+                Date()
+            }
+        }.also {
+            showEditTextError(tietDate)
+        }
+        return formattedDate
     }
 
     private fun showEditTextError(editText: EditText) {

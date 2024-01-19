@@ -13,12 +13,17 @@
         <!-- Añadir animaciones ¿?-->
     </fragment>
     <fragment android:id="@+id/fragment_registro"
-        android:name="com.example.gestorgastofamiliar.fragments.FragmentGasto"
+        android:name="com.example.gestorgastofamiliar.fragments.FragmentRegistro"
         android:label="Registro de Gasto"
         tools:layout="@layout/fragment_registro">
         <action android:id="@+id/action_registro_to_lista"
             app:destination="@+id/fragment_lista"/>
         <!-- Añadir animaciones ¿?-->
     </fragment>
+    <fragment
+        android:id="@+id/fragment_close_application"
+        android:name="com.example.gestorgastofamiliar.fragments.FragmentCloseApplication"
+        android:label="Cerrando sesion"
+        tools:layout="@layout/fragment_close_application" />
 
 </navigation>

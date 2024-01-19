@@ -1,24 +1,14 @@
 package com.example.gestorgastofamiliar.providers
 
-import java.text.SimpleDateFormat
 import java.util.Date
-import java.util.Locale
-
 
 data class Gasto(
     var categoria: String,
     var concepto: String,
     var fecha: Date,
     var precio: Double,
-    var idUsuario: String,
-    val formatoFecha: SimpleDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH)
-) {
-    companion object {
-        fun dateToString(date: Date): String {
-            return SimpleDateFormat("dd/mm/yyyy").format(date)
-        }
-    }
-}
+    var idUsuario: String
+)
 
 class GastosProvider {
     companion object {
@@ -29,8 +19,8 @@ class GastosProvider {
             Gasto("Estudios", "Libro", Date(), 200.0, "juan"),
             Gasto("Ocio", "Cine", Date(), 7.0, "juan"),
             Gasto("Ocio", "Cine", Date(), 7.0, "pedro"),
-            Gasto("Comida", "Pizza", Date(), 100.0, "pedro"),
-            Gasto("Comida", "Hamburguesa", Date(), 20.0, "pedro")
+            Gasto("Comida", "Pizza", Date(), 100.00, "pedro"),
+            Gasto("Comida", "Hamburguesa", Date(), 20.00, "pedro")
         )
     }
 }

@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import com.example.gestorgastofamiliar.R
 import com.example.gestorgastofamiliar.databinding.FragmentRegistroBinding
 import com.example.gestorgastofamiliar.providers.Gasto
+import com.example.gestorgastofamiliar.providers.GastosProvider
 import com.example.gestorgastofamiliar.providers.UsuariosProvider
 import com.google.android.material.textfield.TextInputEditText
 import java.text.SimpleDateFormat
@@ -71,18 +72,16 @@ class FragmentRegistro : Fragment() {
             }.also {
                 showEditTextError(tietDate)
             }
-
             // Precio
             val initialPrice = tietPrice.text.toString()
             val formattedPrice = if (initialPrice.isNotBlank()) {
-                String.format("%.2f", initialPrice.toDoubleOrNull() ?: 0.00)
+                String.format("%.2f", initialPrice.toDoubleOrNull() ?: 0.00).replace(",", ".")
             } else {
                 "0.00"
             }.also {
                 showEditTextError(tietPrice)
                 tietPrice.setText(it)
             }
-
             val price = formattedPrice.toDouble()
 
             if (concept.isNotBlank() && date != Date() && price != null) {
@@ -94,11 +93,11 @@ class FragmentRegistro : Fragment() {
                     binding.spUsuario.selectedItem.toString()
                 )
 
-                Bundle().apply {
-                    putSerializable("gasto", gasto)
-                }
+//                Bundle().apply {
+//                    putSerializable("gasto", gasto)
+//                }
+                GastosProvider.gastos.add(gasto)
             }
-
         }
     }
 

@@ -41,13 +41,14 @@ class LoginActivity : AppCompatActivity() {
                     if (binding.cbGuardarDatos.isChecked) {
                         dato = nombre
                     }
-                    val editor = pref.edit().apply(){
+                    val editor = pref.edit().apply{
                         putString("user", dato)
                     }.commit()
-                    //meter un checkbox que te guarde el usuario al iniciar de nuevo la app??
-                    val intent = Intent(this, MainActivity::class.java)
-                    intent.extras?.putString("nombre",nombre)
+                    val intent = Intent(this, MainActivity::class.java).apply {
+                        putExtra("nombre", nombre)
+                    }
                     startActivity(intent)
+                    finishAffinity()
                 } else {
                     //mensaje de error
                     msgError = "La contraseña no es correcta."

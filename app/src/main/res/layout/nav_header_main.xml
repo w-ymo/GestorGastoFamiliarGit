@@ -28,7 +28,6 @@
         android:id="@+id/tv_nombre_usuario"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text=""
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textSize="18dp"
         tools:text="NOEL" />

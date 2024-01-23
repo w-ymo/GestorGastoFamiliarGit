@@ -20,5 +20,10 @@
             app:destination="@+id/fragment_lista"/>
         <!-- Añadir animaciones ¿?-->
     </fragment>
+    <fragment
+        android:id="@+id/fragment_close_application"
+        android:name="com.example.gestorgastofamiliar.fragments.FragmentCloseApplication"
+        android:label="Cerrando sesion"
+        tools:layout="@layout/fragment_close_application" />
 
 </navigation>

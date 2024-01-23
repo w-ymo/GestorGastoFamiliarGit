@@ -12,4 +12,4 @@ Proyecto de moviles en gregorio 2324
 		- Fragments
 	 		- Registro gastos
 	 		- Listar gasto
-	 	- Cerrar app -> Primer Activity
+	 	- Cerrar app

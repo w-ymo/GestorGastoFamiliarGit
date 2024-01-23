@@ -14,10 +14,12 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
-    <string name="separador_categoria" >" - %1s"</string>
-    <string name="simbolo_euro" >%1.2f €</string>
+    <string name="separador_categoria">" - %1s"</string>
+    <string name="simbolo_euro">%1.2f €</string>
     <string name="lista_gastos">Lista de Gastos</string>
     <string name="anadir_gasto">Añadir un gasto</string>
+    <string name="cerrar_sesion">Cerrar sesion</string>
+    <string name="cerrando_sesion">Cerrando sesion</string>
     <string name="x">X</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="prompt_email">Email</string>

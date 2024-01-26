@@ -11,4 +11,5 @@
     <color name="red">#FF0000</color>
     <color name="fondo_gasto">#E1E1E1</color>
     <color name="negro_80">#CC000000</color>
+    <color name="error">#55FA1222</color>
 </resources>

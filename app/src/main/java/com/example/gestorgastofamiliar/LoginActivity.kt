@@ -1,8 +1,8 @@
 package com.example.gestorgastofamiliar
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.example.gestorgastofamiliar.databinding.ActivityLoginBinding
 import com.example.gestorgastofamiliar.entities.Categoria
 import com.example.gestorgastofamiliar.entities.CategoriasProvider
@@ -24,18 +24,23 @@ class LoginActivity : AppCompatActivity() {
 
         val database: DataBase = DataBase.getDataBase(this)
 
-        for (i in 0..CategoriasProvider.categorias.size) {
-            database.categoriaDao().insert(Categoria(CategoriasProvider.categorias[i]))
-        }
+        Thread {
+            if (database.usuarioDao().getAll() == null) {
 
-        for (user: Usuario in UsuariosProvider.usuarios) {
-            database.usuarioDao().insert(user)
-        }
+                for (i in 0..<CategoriasProvider.categorias.size) {
+                    database.categoriaDao().insert(Categoria(CategoriasProvider.categorias[i]))
+                }
 
-        for (user: Gasto in GastosProvider.gastos) {
-            database.gastoDao().insert(user)
-        }
+                for (user: Usuario in UsuariosProvider.usuarios) {
+                    database.usuarioDao().insert(user)
+                }
 
+                for (user: Gasto in GastosProvider.gastos) {
+                    database.gastoDao().insert(user)
+                }
+
+            }
+        }.start()
         val pref = getSharedPreferences("datos", MODE_PRIVATE)
 
         if (pref.getString("user", "") != null) binding.tilUsuario.editText?.setText(
@@ -60,7 +65,7 @@ class LoginActivity : AppCompatActivity() {
                     if (binding.cbGuardarDatos.isChecked) {
                         dato = nombre
                     }
-                    val editor = pref.edit().apply{
+                    val editor = pref.edit().apply {
                         putString("user", dato)
                     }.commit()
                     val intent = Intent(this, MainActivity::class.java).apply {

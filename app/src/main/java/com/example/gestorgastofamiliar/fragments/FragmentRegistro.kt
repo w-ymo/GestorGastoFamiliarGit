@@ -92,7 +92,7 @@ class FragmentRegistro : Fragment() {
                     concept,
                     date,
                     price,
-                    binding.spUsuario.selectedItem.toString()
+                    binding.spUsuario.selectedItem.toString().toInt()
                 )
 
                 GastosProvider.gastos.add(gasto)

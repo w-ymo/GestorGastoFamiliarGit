@@ -2,6 +2,7 @@ package com.example.gestorgastofamiliar
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.gestorgastofamiliar.databinding.ActivityLoginBinding
 import com.example.gestorgastofamiliar.entities.Categoria
@@ -25,7 +26,7 @@ class LoginActivity : AppCompatActivity() {
         val database: DataBase = DataBase.getDataBase(this)
 
         Thread {
-            if (database.usuarioDao().getAll() == null) {
+            if (database.usuarioDao().getAll().isNullOrEmpty()) {
 
                 for (i in 0..<CategoriasProvider.categorias.size) {
                     database.categoriaDao().insert(Categoria(CategoriasProvider.categorias[i]))
@@ -55,11 +56,14 @@ class LoginActivity : AppCompatActivity() {
             //Comprobacion
             val nombre = binding.tilUsuario.editText?.text.toString()
             val password = binding.tilPassword.editText?.text.toString()
-            val index = findUser(nombre)
             var msgError = ""
-            if (index >= 0) {
+            var user:Usuario? = null
+            Thread{
+                user = database.usuarioDao().getByName(nombre)
+            }.start()
+            if(user != null){
                 //comprobamos la contraseña
-                if (UsuariosProvider.usuarios[index].contrasena == password) {
+                if (user?.contrasena == password) {
                     //lanzo a la siguiente ventana
                     var dato = ""
                     if (binding.cbGuardarDatos.isChecked) {
@@ -70,6 +74,7 @@ class LoginActivity : AppCompatActivity() {
                     }.commit()
                     val intent = Intent(this, MainActivity::class.java).apply {
                         putExtra("nombre", nombre)
+                        putExtra("idUser", user?.idUsuario)
                     }
                     startActivity(intent)
                     finishAffinity()
@@ -85,12 +90,4 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun findUser(nombre: String): Int {
-        for (i in 0..UsuariosProvider.usuarios.size) {
-            if (UsuariosProvider.usuarios[i].nombre == nombre) {
-                return i
-            }
-        }
-        return -1
-    }
 }

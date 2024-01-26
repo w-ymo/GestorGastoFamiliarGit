@@ -7,9 +7,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gestorgastofamiliar.R
 import com.example.gestorgastofamiliar.databinding.FragmentGastoBinding
-import com.example.gestorgastofamiliar.providers.Gasto
+import com.example.gestorgastofamiliar.entities.Gasto
 import java.text.SimpleDateFormat
-import java.util.Date
 import java.util.Locale
 
 class RecyclerViewAdapterGasto(

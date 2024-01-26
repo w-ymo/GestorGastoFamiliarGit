@@ -1,11 +1,10 @@
 package com.example.gestorgastofamiliar
 
 import android.content.Intent
-import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.gestorgastofamiliar.databinding.ActivityLoginBinding
-import com.example.gestorgastofamiliar.providers.UsuariosProvider
+import com.example.gestorgastofamiliar.entities.UsuariosProvider
 import com.google.android.material.snackbar.Snackbar
 
 class LoginActivity : AppCompatActivity() {
@@ -16,6 +15,8 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+
 
         val pref = getSharedPreferences("datos", MODE_PRIVATE)
 

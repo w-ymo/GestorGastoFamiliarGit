@@ -1,6 +1,4 @@
-package com.example.gestorgastofamiliar.providers
-
-import java.util.Date
+package com.example.gestorgastofamiliar.entities
 
 class CategoriasProvider {
     companion object {

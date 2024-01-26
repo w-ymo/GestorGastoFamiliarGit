@@ -6,10 +6,10 @@
     <data>
         <variable
             name="gasto"
-            type="com.example.gestorgastofamiliar.providers.Gasto" />
+            type="com.example.gestorgastofamiliar.entities.Gasto" />
         <variable
             name="gastos"
-            type="com.example.gestorgastofamiliar.providers.GastosProvider" />
+            type="com.example.gestorgastofamiliar.entities.GastosProvider" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

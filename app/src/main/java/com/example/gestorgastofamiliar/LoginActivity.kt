@@ -25,7 +25,7 @@ class LoginActivity : AppCompatActivity() {
         val database: DataBase = DataBase.getDataBase(this)
 
         Thread {
-            if (database.usuarioDao().getAll() == null) {
+            if (database.usuarioDao().getAll().isNullOrEmpty()) {
 
                 for (i in 0..<CategoriasProvider.categorias.size) {
                     database.categoriaDao().insert(Categoria(CategoriasProvider.categorias[i]))

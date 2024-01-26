@@ -4,7 +4,13 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.gestorgastofamiliar.databinding.ActivityLoginBinding
+import com.example.gestorgastofamiliar.entities.Categoria
+import com.example.gestorgastofamiliar.entities.CategoriasProvider
+import com.example.gestorgastofamiliar.entities.Gasto
+import com.example.gestorgastofamiliar.entities.GastosProvider
+import com.example.gestorgastofamiliar.entities.Usuario
 import com.example.gestorgastofamiliar.entities.UsuariosProvider
+import com.example.gestorgastofamiliar.services.DataBase
 import com.google.android.material.snackbar.Snackbar
 
 class LoginActivity : AppCompatActivity() {
@@ -16,7 +22,19 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val database: DataBase = DataBase.getDataBase(this)
 
+        for (i in 0..CategoriasProvider.categorias.size) {
+            database.categoriaDao().insert(Categoria(CategoriasProvider.categorias[i]))
+        }
+
+        for (user: Usuario in UsuariosProvider.usuarios) {
+            database.usuarioDao().insert(user)
+        }
+
+        for (user: Gasto in GastosProvider.gastos) {
+            database.gastoDao().insert(user)
+        }
 
         val pref = getSharedPreferences("datos", MODE_PRIVATE)
 

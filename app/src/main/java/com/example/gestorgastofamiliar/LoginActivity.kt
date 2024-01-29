@@ -47,8 +47,8 @@ class LoginActivity : AppCompatActivity() {
 
             }
         }.start()
-
         */
+
 
         val pref = getSharedPreferences("datos", MODE_PRIVATE)
         if (pref.getString("user", "") != null) binding.tilUsuario.editText?.setText(

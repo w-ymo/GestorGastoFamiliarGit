@@ -11,6 +11,7 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.example.gestorgastofamiliar.databinding.ActivityMainBinding
+import com.example.gestorgastofamiliar.services.DataBase
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,13 +24,18 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val database: DataBase = DataBase.getDataBase(this)
+
         setSupportActionBar(binding.appBarMain.toolbar)
 
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
 
         var tvUserName = navView.getHeaderView(0).findViewById<TextView>(R.id.tv_nombre_usuario)
-        tvUserName.text = intent.getStringExtra("nombre")
+        var idUser: Int = intent.getIntExtra("idUser", 0)
+        Thread {
+            tvUserName.text = database.usuarioDao().getBydId(idUser).nombre
+        }.start()
 
 
         val navController = findNavController(R.id.nav_host_fragment_content_main)

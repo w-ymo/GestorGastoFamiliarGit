@@ -10,6 +10,10 @@ import com.example.gestorgastofamiliar.R
 import com.example.gestorgastofamiliar.databinding.FragmentGastoBinding
 import com.example.gestorgastofamiliar.entities.Gasto
 import com.example.gestorgastofamiliar.services.DataBase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -30,18 +34,19 @@ class RecyclerViewAdapterGasto(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val gasto = gastos[position]
-            holder.bind(gasto, holder.itemView.getContext())
+        holder.bind(gasto, holder.itemView.getContext())
         holder.binding.bEliminar.setOnClickListener {
-            var builder = AlertDialog.Builder(holder.itemView.context)
+            val builder = AlertDialog.Builder(holder.itemView.context)
             builder.setTitle("Confirmación")
             builder.setMessage("¿Seguro que desea borrar la entrada?")
             builder.setPositiveButton("Aceptar") { dialog, _ ->
-                Thread {
+                CoroutineScope(Dispatchers.IO).launch {
                     dataBase.gastoDao().deleteById(gasto.idGasto)
                     Log.d("dev", gastos[position].idGasto.toString())
-                    gastos.removeAt(position)
-
-                }.start()
+                    withContext(Dispatchers.Main) {
+                        gastos.removeAt(position)
+                    }
+                }
                 //this.notifyItemRemoved(position)
                 this.notifyDataSetChanged()
             }
@@ -57,11 +62,21 @@ class RecyclerViewAdapterGasto(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(gasto: Gasto, context: Context) {
 
-            binding.tvCategoria.text = context.getString(R.string.separador_categoria, gasto.categoria)
-            binding.tvNombreUsuario.text = context.getString(R.string.separador_categoria, gasto.idUsuario.toString())
-            binding.tvConcepto.text =  gasto.concepto
+            binding.tvCategoria.text =
+                context.getString(R.string.separador_categoria, gasto.categoria)
+            CoroutineScope(Dispatchers.IO).launch {
+                val nombre: String = dataBase.usuarioDao().getBydId(gasto.idUsuario).nombre
+                withContext(Dispatchers.Main) {
+                    binding.tvNombreUsuario.text =
+                        context.getString(R.string.separador_categoria, nombre)
+                }
+
+            }
+            binding.tvConcepto.text = gasto.concepto
             binding.tvPrecio.text = context.getString(R.string.simbolo_euro, gasto.precio)
-            binding.tvFecha.text = SimpleDateFormat("dd/MM/yyyy", Locale.FRENCH).format(gasto.fecha)
+            binding.tvFecha.text =
+                SimpleDateFormat("dd/MM/yyyy", Locale.FRENCH).format(gasto.fecha)
+
         }
     }
 

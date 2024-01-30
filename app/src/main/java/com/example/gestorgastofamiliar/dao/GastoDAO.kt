@@ -9,11 +9,14 @@ import com.example.gestorgastofamiliar.entities.Gasto
 @Dao
 interface GastoDAO {
     @Query("select * from gasto where idUsuario = (:userId)")
-    fun getGastoByUserId(vararg userId: Int): Gasto
+    fun getGastosByUserId(vararg userId: Int): List<Gasto>?
+
+    @Query("select * from gasto")
+    fun getGastos(): List<Gasto>?
 
     @Insert
     fun insert(vararg gasto: Gasto)
 
-    @Delete
-    fun delete(vararg gasto: Gasto)
+    @Query("delete from gasto where idGasto = (:gastoId)")
+    fun deleteById(vararg gastoId: Int)
 }

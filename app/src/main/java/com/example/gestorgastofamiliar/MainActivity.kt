@@ -10,7 +10,12 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentResultListener
+import androidx.fragment.app.FragmentResultOwner
+import androidx.fragment.app.setFragmentResultListener
 import com.example.gestorgastofamiliar.databinding.ActivityMainBinding
+import com.example.gestorgastofamiliar.fragments.FragmentGasto
 import com.example.gestorgastofamiliar.services.DataBase
 
 class MainActivity : AppCompatActivity() {

@@ -10,13 +10,17 @@ import android.widget.ArrayAdapter
 import android.widget.DatePicker
 import android.widget.EditText
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import com.example.gestorgastofamiliar.LoginActivity
 import com.example.gestorgastofamiliar.R
 import com.example.gestorgastofamiliar.databinding.FragmentRegistroBinding
 import com.example.gestorgastofamiliar.entities.CategoriasProvider
 import com.example.gestorgastofamiliar.entities.Gasto
 import com.example.gestorgastofamiliar.entities.GastosProvider
+import com.example.gestorgastofamiliar.entities.Usuario
 import com.example.gestorgastofamiliar.entities.UsuariosProvider
+import com.example.gestorgastofamiliar.services.DataBase
 import com.google.android.material.textfield.TextInputEditText
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -29,7 +33,7 @@ class FragmentRegistro : Fragment() {
     private lateinit var tietConcept: TextInputEditText
     private lateinit var tietDate: TextInputEditText
     private lateinit var tietPrice: TextInputEditText
-
+    private var userId: Int? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -41,15 +45,17 @@ class FragmentRegistro : Fragment() {
         tietDate = binding.tietFecha
         tietPrice = binding.tietPrecio
 
+        val database = DataBase.getDataBase(requireContext())
+        userId = arguments?.getInt("idUser")
+        if (userId != null) {
+            binding.tvNombreUsuario.text = database.usuarioDao().getBydId(userId!!).nombre
+        }
+
+
         binding.spCategoria.adapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_list_item_1,
             CategoriasProvider.categorias
-        )
-        binding.spUsuario.adapter = ArrayAdapter(
-            requireContext(),
-            android.R.layout.simple_list_item_1,
-            UsuariosProvider.usuarios
         )
         return binding.root
     }
@@ -67,17 +73,16 @@ class FragmentRegistro : Fragment() {
                 .setTitle("Añadir Categoría")
                 .setMessage("Escribe el nombre de la nueva categoría")
                 .setView(categoriesInputEditText)
-                .setPositiveButton("Ok") { dialog, which ->
+                .setPositiveButton("Ok") { _, _ ->
                     CategoriasProvider.categorias.add(categoriesInputEditText.text.toString())
                 }
-                .setNegativeButton("Cancelar") { dialog, which ->
+                .setNegativeButton("Cancelar") { dialog, _ ->
                     dialog.dismiss()
                 }
             alert.show()
         }
 
         binding.bRegistrar.setOnClickListener {
-
             val concept = tietConcept.text.toString().also {
                 showEditTextError(tietConcept)
             }
@@ -86,13 +91,13 @@ class FragmentRegistro : Fragment() {
 
             val price = formatPrice(tietPrice.text.toString())
 
-            if (concept.isNotBlank() && date != Date() && price != null) {
+            if (concept.isNotBlank() && date != Date() && price != null && userId != null) {
                 val gasto = Gasto(
                     binding.spCategoria.selectedItem.toString(),
                     concept,
                     date,
                     price,
-                    binding.spUsuario.selectedItem.toString().toInt()
+                    userId!!
                 )
 
                 GastosProvider.gastos.add(gasto)
@@ -140,7 +145,7 @@ class FragmentRegistro : Fragment() {
         val day: Int = calendar.get(Calendar.DAY_OF_MONTH)
 
         val datePickerDialog = DatePickerDialog(
-            requireContext(), { datePicker: DatePicker, year: Int, month: Int, day: Int ->
+            requireContext(), { _: DatePicker, year: Int, month: Int, day: Int ->
                 val selectedDate = "$day/${month + 1}/$year"
                 binding.tietFecha.setText(selectedDate)
             }, year, month, day

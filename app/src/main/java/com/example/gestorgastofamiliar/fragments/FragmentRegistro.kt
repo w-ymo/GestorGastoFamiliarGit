@@ -10,19 +10,18 @@ import android.widget.ArrayAdapter
 import android.widget.DatePicker
 import android.widget.EditText
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
-import com.example.gestorgastofamiliar.LoginActivity
 import com.example.gestorgastofamiliar.R
 import com.example.gestorgastofamiliar.databinding.FragmentRegistroBinding
 import com.example.gestorgastofamiliar.entities.Categoria
-import com.example.gestorgastofamiliar.entities.CategoriasProvider
 import com.example.gestorgastofamiliar.entities.Gasto
-import com.example.gestorgastofamiliar.entities.GastosProvider
-import com.example.gestorgastofamiliar.entities.Usuario
 import com.example.gestorgastofamiliar.entities.UsuariosProvider
 import com.example.gestorgastofamiliar.services.DataBase
 import com.google.android.material.textfield.TextInputEditText
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -49,14 +48,26 @@ class FragmentRegistro : Fragment() {
         tietDate = binding.tietFecha
         tietPrice = binding.tietPrecio
 
-        userId = arguments?.getInt("idUser")
-        if (userId != null) {
-            binding.tvNombreUsuario.text = dataBase.usuarioDao().getBydId(userId!!).nombre
-        }
+//        userId = arguments?.getInt("idUser")
+//        if (userId != null) {
+//            lifecycleScope.launch(Dispatchers.IO) {
+//                val nombre = dataBase.usuarioDao().getBydId(userId!!).nombre
+//                withContext(Dispatchers.Main) {
+//                    binding.tvNombreUsuario.text = nombre
+//                }
+//            }
+//        }
+
+
+        binding.spUsuarios.adapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_list_item_1,
+            UsuariosProvider.usuarios
+        )
+
         Thread {
-            //CategoriasProvider.categorias
             binding.spCategoria.adapter = dataBase.categoriaDao().getAll()?.let {
-                ArrayAdapter<Categoria>(
+                ArrayAdapter(
                     requireContext(),
                     android.R.layout.simple_list_item_1,
                     it.toTypedArray()
@@ -73,21 +84,38 @@ class FragmentRegistro : Fragment() {
             showDatePickerDialog()
         }
 
-        val categoriesInputEditText = EditText(requireContext())
+
         binding.ibCategoria.setOnClickListener {
+            val categoriesInputEditText = EditText(requireContext())
             val alert = AlertDialog.Builder(requireContext())
                 .setTitle("Añadir Categoría")
                 .setMessage("Escribe el nombre de la nueva categoría")
                 .setView(categoriesInputEditText)
-                .setPositiveButton("Ok") { _, _ ->
-                    //CategoriasProvider.categorias.add(categoriesInputEditText.text.toString())
-                    dataBase.categoriaDao().insert(Categoria(categoriesInputEditText.text.toString()))
-                }
-                .setNegativeButton("Cancelar") { dialog, _ ->
+                .setPositiveButton("Ok") { dialog, _ ->
+                    lifecycleScope.launch(Dispatchers.IO) {
+                        dataBase.categoriaDao()
+                            .insert(Categoria(categoriesInputEditText.text.toString()))
+                        val categorias = dataBase.categoriaDao().getAll()
+                        withContext(Dispatchers.Main) {
+                            binding.spCategoria.adapter = categorias.let {
+                                it?.let { it1 ->
+                                    ArrayAdapter(
+                                        requireContext(),
+                                        android.R.layout.simple_list_item_1,
+                                        it1.toTypedArray()
+                                    )
+                                }
+                            }
+                        }
+                    }
+                    dialog.dismiss()
+                }.setNegativeButton("Cancelar") { dialog, _ ->
                     dialog.dismiss()
                 }
             alert.show()
         }
+
+
 
         binding.bRegistrar.setOnClickListener {
             val concept = tietConcept.text.toString().also {
@@ -96,19 +124,21 @@ class FragmentRegistro : Fragment() {
             val date = formatDate(tietDate.text.toString())
             val price = formatPrice(tietPrice.text.toString())
 
-            if (concept.isNotBlank() && date != Date() && price != null && userId != null) {
-                val gasto = Gasto(
-                    binding.spCategoria.selectedItem.toString(),
-                    concept,
-                    date,
-                    price,
-                    userId!!
-                )
+            if (concept.isNotBlank() && date != Date() && price != null) {
+                lifecycleScope.launch(Dispatchers.IO) {
+                    dataBase.gastoDao().insert(
+                        Gasto(
+                            dataBase.categoriaDao()
+                                .getCategoryById(binding.spCategoria.selectedItemPosition + 1).nombre,
+                            concept,
+                            date,
+                            price,
+                            dataBase.usuarioDao()
+                                .getBydId(binding.spUsuarios.selectedItemPosition + 1).idUsuario
+                        )
+                    )
+                }
 
-                Thread {
-                    dataBase.gastoDao().insert(gasto)
-                }.start()
-                GastosProvider.gastos.add(gasto)
                 it.findNavController().navigate(R.id.action_registro_to_lista)
             }
 

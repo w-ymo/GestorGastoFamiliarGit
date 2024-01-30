@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gestorgastofamiliar.databinding.ActivityLoginBinding
 import com.example.gestorgastofamiliar.entities.Categoria
@@ -64,7 +65,7 @@ class LoginActivity : AppCompatActivity() {
             var msgError = ""
             var user:Usuario? = null
             var context = this
-            CoroutineScope(Dispatchers.IO).launch {
+            lifecycleScope.launch(Dispatchers.IO) {
                 Log.d("depurando", nombre)
                 user = database.usuarioDao().getByName(nombre)
                 Log.d("depurando", user.toString()) //este va fino
@@ -74,31 +75,33 @@ class LoginActivity : AppCompatActivity() {
                     user.toString()
                 ) //este no porque no pilla bien el thread anterior
                 Log.d("depurando", (user != null).toString())
-                if (user != null) {
-                    //comprobamos la contraseña
-                    if (user?.contrasena == password) {
-                        //lanzo a la siguiente ventana
-                        var dato = ""
-                        if (binding.cbGuardarDatos.isChecked) {
-                            dato = nombre
+                withContext(Dispatchers.Main) {
+                    if (user != null) {
+                        //comprobamos la contraseña
+                        if (user?.contrasena == password) {
+                            //lanzo a la siguiente ventana
+                            var dato = ""
+                            if (binding.cbGuardarDatos.isChecked) {
+                                dato = nombre
+                            }
+                            val editor = pref.edit().apply {
+                                putString("user", dato)
+                            }.commit()
+                            val intent = Intent(context, MainActivity::class.java).apply {
+                                putExtra("idUser", user?.idUsuario)
+                            }
+                            startActivity(intent)
+                            finishAffinity()
+                        } else {
+                            //mensaje de error
+                            msgError = "La contraseña no es correcta."
                         }
-                        val editor = pref.edit().apply {
-                            putString("user", dato)
-                        }.commit()
-                        val intent = Intent(context, MainActivity::class.java).apply {
-                            putExtra("idUser", user?.idUsuario)
-                        }
-                        startActivity(intent)
-                        finishAffinity()
                     } else {
                         //mensaje de error
-                        msgError = "La contraseña no es correcta."
+                        msgError = "El usuario no existe en la base de datos."
                     }
-                } else {
-                    //mensaje de error
-                    msgError = "El usuario no existe en la base de datos."
+                    Snackbar.make(binding.root, msgError, Snackbar.LENGTH_LONG).show()
                 }
-                Snackbar.make(binding.root, msgError, Snackbar.LENGTH_LONG).show()
             }
         }
     }

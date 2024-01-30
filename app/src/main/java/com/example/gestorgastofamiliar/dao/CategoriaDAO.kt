@@ -8,9 +8,9 @@ import com.example.gestorgastofamiliar.entities.Categoria
 @Dao
 interface CategoriaDAO {
     @Query("select * from categoria")
-    suspend fun getAll(): List<Categoria>?
+     fun getAll(): MutableList<Categoria>?
 
     @Insert
-    suspend fun insert(vararg categoria: Categoria)
+     fun insert(vararg categoria: Categoria)
 
 }

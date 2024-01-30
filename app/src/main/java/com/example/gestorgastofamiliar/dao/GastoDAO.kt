@@ -9,11 +9,11 @@ import com.example.gestorgastofamiliar.entities.Gasto
 @Dao
 interface GastoDAO {
     @Query("select * from gasto where idUsuario = (:userId)")
-    suspend fun getGastoByUserId(vararg userId: Int): Gasto
+    fun getGastoByUserId(vararg userId: Int): MutableList<Gasto>
 
     @Insert
-    suspend fun insert(vararg gasto: Gasto)
+     fun insert(vararg gasto: Gasto)
 
     @Delete
-    suspend fun delete(vararg gasto: Gasto)
+     fun delete(vararg gasto: Gasto)
 }

@@ -15,6 +15,7 @@ import androidx.navigation.findNavController
 import com.example.gestorgastofamiliar.LoginActivity
 import com.example.gestorgastofamiliar.R
 import com.example.gestorgastofamiliar.databinding.FragmentRegistroBinding
+import com.example.gestorgastofamiliar.entities.Categoria
 import com.example.gestorgastofamiliar.entities.CategoriasProvider
 import com.example.gestorgastofamiliar.entities.Gasto
 import com.example.gestorgastofamiliar.entities.GastosProvider
@@ -34,6 +35,7 @@ class FragmentRegistro : Fragment() {
     private lateinit var tietDate: TextInputEditText
     private lateinit var tietPrice: TextInputEditText
     private var userId: Int? = null
+    private lateinit var dataBase: DataBase
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -41,22 +43,26 @@ class FragmentRegistro : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentRegistroBinding.inflate(layoutInflater, container, false)
 
+        dataBase = DataBase.getDataBase(requireContext())
+
         tietConcept = binding.tietConcepto
         tietDate = binding.tietFecha
         tietPrice = binding.tietPrecio
 
-        val database = DataBase.getDataBase(requireContext())
         userId = arguments?.getInt("idUser")
         if (userId != null) {
-            binding.tvNombreUsuario.text = database.usuarioDao().getBydId(userId!!).nombre
+            binding.tvNombreUsuario.text = dataBase.usuarioDao().getBydId(userId!!).nombre
         }
-
-
-        binding.spCategoria.adapter = ArrayAdapter(
-            requireContext(),
-            android.R.layout.simple_list_item_1,
-            CategoriasProvider.categorias
-        )
+        Thread {
+            //CategoriasProvider.categorias
+            binding.spCategoria.adapter = dataBase.categoriaDao().getAll()?.let {
+                ArrayAdapter<Categoria>(
+                    requireContext(),
+                    android.R.layout.simple_list_item_1,
+                    it.toTypedArray()
+                )
+            }
+        }.start()
         return binding.root
     }
 
@@ -74,7 +80,8 @@ class FragmentRegistro : Fragment() {
                 .setMessage("Escribe el nombre de la nueva categoría")
                 .setView(categoriesInputEditText)
                 .setPositiveButton("Ok") { _, _ ->
-                    CategoriasProvider.categorias.add(categoriesInputEditText.text.toString())
+                    //CategoriasProvider.categorias.add(categoriesInputEditText.text.toString())
+                    dataBase.categoriaDao().insert(Categoria(categoriesInputEditText.text.toString()))
                 }
                 .setNegativeButton("Cancelar") { dialog, _ ->
                     dialog.dismiss()
@@ -86,9 +93,7 @@ class FragmentRegistro : Fragment() {
             val concept = tietConcept.text.toString().also {
                 showEditTextError(tietConcept)
             }
-
             val date = formatDate(tietDate.text.toString())
-
             val price = formatPrice(tietPrice.text.toString())
 
             if (concept.isNotBlank() && date != Date() && price != null && userId != null) {
@@ -100,6 +105,9 @@ class FragmentRegistro : Fragment() {
                     userId!!
                 )
 
+                Thread {
+                    dataBase.gastoDao().insert(gasto)
+                }.start()
                 GastosProvider.gastos.add(gasto)
                 it.findNavController().navigate(R.id.action_registro_to_lista)
             }

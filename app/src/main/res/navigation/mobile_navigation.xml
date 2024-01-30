@@ -18,6 +18,10 @@
         tools:layout="@layout/fragment_registro">
         <action android:id="@+id/action_registro_to_lista"
             app:destination="@+id/fragment_lista"/>
+        <argument
+            android:name="idUser"
+            app:argType="integer"
+            android:defaultValue="0" />
         <!-- Añadir animaciones ¿?-->
     </fragment>
     <fragment

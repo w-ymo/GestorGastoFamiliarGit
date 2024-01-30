@@ -8,4 +8,8 @@ import androidx.room.PrimaryKey
 data class Categoria(@ColumnInfo var nombre: String) {
     @PrimaryKey(autoGenerate = true)
     var idCategoria: Int = 0
+
+    override fun toString(): String {
+        return nombre
+    }
 }

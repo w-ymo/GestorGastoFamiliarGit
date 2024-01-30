@@ -10,14 +10,18 @@ import android.widget.ArrayAdapter
 import android.widget.DatePicker
 import android.widget.EditText
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import com.example.gestorgastofamiliar.R
 import com.example.gestorgastofamiliar.databinding.FragmentRegistroBinding
-import com.example.gestorgastofamiliar.entities.CategoriasProvider
+import com.example.gestorgastofamiliar.entities.Categoria
 import com.example.gestorgastofamiliar.entities.Gasto
-import com.example.gestorgastofamiliar.entities.GastosProvider
 import com.example.gestorgastofamiliar.entities.UsuariosProvider
+import com.example.gestorgastofamiliar.services.DataBase
 import com.google.android.material.textfield.TextInputEditText
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -29,7 +33,8 @@ class FragmentRegistro : Fragment() {
     private lateinit var tietConcept: TextInputEditText
     private lateinit var tietDate: TextInputEditText
     private lateinit var tietPrice: TextInputEditText
-
+    private var userId: Int? = null
+    private lateinit var dataBase: DataBase
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -37,20 +42,38 @@ class FragmentRegistro : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentRegistroBinding.inflate(layoutInflater, container, false)
 
+        dataBase = DataBase.getDataBase(requireContext())
+
         tietConcept = binding.tietConcepto
         tietDate = binding.tietFecha
         tietPrice = binding.tietPrecio
 
-        binding.spCategoria.adapter = ArrayAdapter(
-            requireContext(),
-            android.R.layout.simple_list_item_1,
-            CategoriasProvider.categorias
-        )
-        binding.spUsuario.adapter = ArrayAdapter(
+//        userId = arguments?.getInt("idUser")
+//        if (userId != null) {
+//            lifecycleScope.launch(Dispatchers.IO) {
+//                val nombre = dataBase.usuarioDao().getBydId(userId!!).nombre
+//                withContext(Dispatchers.Main) {
+//                    binding.tvNombreUsuario.text = nombre
+//                }
+//            }
+//        }
+
+
+        binding.spUsuarios.adapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_list_item_1,
             UsuariosProvider.usuarios
         )
+
+        Thread {
+            binding.spCategoria.adapter = dataBase.categoriaDao().getAll()?.let {
+                ArrayAdapter(
+                    requireContext(),
+                    android.R.layout.simple_list_item_1,
+                    it.toTypedArray()
+                )
+            }
+        }.start()
         return binding.root
     }
 
@@ -61,41 +84,61 @@ class FragmentRegistro : Fragment() {
             showDatePickerDialog()
         }
 
-        val categoriesInputEditText = EditText(requireContext())
+
         binding.ibCategoria.setOnClickListener {
+            val categoriesInputEditText = EditText(requireContext())
             val alert = AlertDialog.Builder(requireContext())
                 .setTitle("Añadir Categoría")
                 .setMessage("Escribe el nombre de la nueva categoría")
                 .setView(categoriesInputEditText)
-                .setPositiveButton("Ok") { dialog, which ->
-                    CategoriasProvider.categorias.add(categoriesInputEditText.text.toString())
-                }
-                .setNegativeButton("Cancelar") { dialog, which ->
+                .setPositiveButton("Ok") { dialog, _ ->
+                    lifecycleScope.launch(Dispatchers.IO) {
+                        dataBase.categoriaDao()
+                            .insert(Categoria(categoriesInputEditText.text.toString()))
+                        val categorias = dataBase.categoriaDao().getAll()
+                        withContext(Dispatchers.Main) {
+                            binding.spCategoria.adapter = categorias.let {
+                                it?.let { it1 ->
+                                    ArrayAdapter(
+                                        requireContext(),
+                                        android.R.layout.simple_list_item_1,
+                                        it1.toTypedArray()
+                                    )
+                                }
+                            }
+                        }
+                    }
+                    dialog.dismiss()
+                }.setNegativeButton("Cancelar") { dialog, _ ->
                     dialog.dismiss()
                 }
             alert.show()
         }
 
-        binding.bRegistrar.setOnClickListener {
 
+
+        binding.bRegistrar.setOnClickListener {
             val concept = tietConcept.text.toString().also {
                 showEditTextError(tietConcept)
             }
-
             val date = formatDate(tietDate.text.toString())
-
             val price = formatPrice(tietPrice.text.toString())
 
             if (concept.isNotBlank() && date != Date() && price != null) {
-                val gasto = Gasto(
-                    binding.spCategoria.selectedItem.toString(),
-                    concept,
-                    date,
-                    price,
-                    binding.spUsuario.selectedItem.toString().toInt()
-                )
+                lifecycleScope.launch(Dispatchers.IO) {
+                    dataBase.gastoDao().insert(
+                        Gasto(
+                            dataBase.categoriaDao()
+                                .getCategoryById(binding.spCategoria.selectedItemPosition + 1).nombre,
+                            concept,
+                            date,
+                            price,
+                            dataBase.usuarioDao()
+                                .getBydId(binding.spUsuarios.selectedItemPosition + 1).idUsuario
+                        )
+                    )
+                }
 
-                GastosProvider.gastos.add(gasto)
                 it.findNavController().navigate(R.id.action_registro_to_lista)
             }
 
@@ -140,7 +183,7 @@ class FragmentRegistro : Fragment() {
         val day: Int = calendar.get(Calendar.DAY_OF_MONTH)
 
         val datePickerDialog = DatePickerDialog(
-            requireContext(), { datePicker: DatePicker, year: Int, month: Int, day: Int ->
+            requireContext(), { _: DatePicker, year: Int, month: Int, day: Int ->
                 val selectedDate = "$day/${month + 1}/$year"
                 binding.tietFecha.setText(selectedDate)
             }, year, month, day

@@ -91,7 +91,7 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
+    --<TextView
         android:id="@+id/tv_usuario"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -101,15 +101,24 @@
         android:layout_column="0"
         android:layout_columnSpan="2"/>
 
+<!--    <TextView-->
+<!--        android:id="@+id/tv_nombre_usuario"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:textStyle="bold"-->
+<!--        android:textSize="16dp"-->
+<!--        android:layout_row="6"-->
+<!--        android:layout_column="0"-->
+<!--        android:paddingStart="10dp"-->
+<!--        android:layout_columnSpan="2"/>-->
+
     <Spinner
-        android:id="@+id/sp_usuario"
+        android:id="@+id/sp_usuarios"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_row="6"
         android:layout_column="0"
-        android:layout_columnSpan="2"
-        android:minHeight="48dp"
-        android:paddingBottom="15dp" />
+        android:layout_columnSpan="2"/>
 
     <Button
         android:id="@+id/b_registrar"

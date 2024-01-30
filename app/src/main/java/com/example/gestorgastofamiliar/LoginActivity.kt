@@ -48,8 +48,8 @@ class LoginActivity : AppCompatActivity() {
 
             }
         }.start()
-
         */
+
 
         val pref = getSharedPreferences("datos", MODE_PRIVATE)
         if (pref.getString("user", "") != null) binding.tilUsuario.editText?.setText(
@@ -84,7 +84,7 @@ class LoginActivity : AppCompatActivity() {
                             if (binding.cbGuardarDatos.isChecked) {
                                 dato = nombre
                             }
-                            val editor = pref.edit().apply {
+                            pref.edit().apply {
                                 putString("user", dato)
                             }.commit()
                             val intent = Intent(context, MainActivity::class.java).apply {
